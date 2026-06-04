@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manuale d'uso di me stesso - Orientamento post maturità</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --ink: #18202f;
+      --muted: #5b6475;
+      --panel: #ffffff;
+      --soft: #eef3f8;
+      --line: #d9e0ea;
+      --accent: #0b7f7a;
+      --accent-2: #bd4b36;
+      --accent-3: #2d5f9a;
+      --warm: #f4c95d;
+      --good: #2f855a;
+      --danger: #b83232;
+      --shadow: 0 16px 45px rgba(24, 32, 47, 0.12);
+      --radius: 8px;
+      --font: Arial, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(135deg, rgba(11,127,122,0.08), transparent 34rem),
+        linear-gradient(225deg, rgba(189,75,54,0.08), transparent 30rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      line-height: 1.55;
+    }
+
+    body.dsa-mode {
+      font-family: Arial, sans-serif;
+      line-height: 1.85;
+      letter-spacing: 0.03em;
+      word-spacing: 0.08em;
+    }
+
+    body.focus-mode .optional { display: none; }
+    button, input, textarea, select { font: inherit; }
+    button, .link-button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      min-height: 42px;
+      padding: 0.58rem 0.82rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 700;
+    }
+    button:hover, .link-button:hover { border-color: var(--accent); }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    button.warn {
+      background: #fff7e0;
+      border-color: #e4b742;
+    }
+    button.danger {
+      color: var(--danger);
+      border-color: rgba(184, 50, 50, 0.35);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245, 247, 251, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.7rem 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, var(--accent), var(--accent-3));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .brand strong { display: block; line-height: 1.1; }
+    .brand span { color: var(--muted); font-size: 0.88rem; }
+    .tools {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .hero {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      min-height: calc(100vh - 74px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(330px, 0.9fr);
+      align-items: center;
+      gap: clamp(1.5rem, 4vw, 4rem);
+      padding: 2rem 0 3rem;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      line-height: 0.98;
+      margin: 0 0 1rem;
+      max-width: 11ch;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+      color: var(--muted);
+      max-width: 66ch;
+      margin: 0 0 1.4rem;
+    }
+    .quote {
+      border-left: 6px solid var(--accent);
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.72);
+      font-size: 1.18rem;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+    .hero-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+    .schedule {
+      display: grid;
+      gap: 0.65rem;
+    }
+    .schedule-row {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.65rem;
+      background: var(--soft);
+    }
+    .time {
+      font-weight: 900;
+      color: var(--accent-3);
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      background: #e9f7f5;
+      color: #08645f;
+      border: 1px solid #bde4df;
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto 4rem;
+    }
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin: 1.2rem 0;
+      overflow: hidden;
+    }
+    .section-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.1rem;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(11,127,122,0.08), rgba(45,95,154,0.08));
+    }
+    .section h2 {
+      margin: 0.25rem 0 0.35rem;
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      letter-spacing: 0;
+    }
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .section-body {
+      padding: 1.1rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .teacher-note {
+      border-left: 5px solid var(--warm);
+      background: #fff9e8;
+      padding: 0.85rem 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 1rem;
+    }
+    .mini-card h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1.15rem;
+    }
+    .question-list {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    .question-list li { margin: 0.45rem 0; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      padding: 0.7rem 0.85rem;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .timer {
+      min-width: 190px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 0.7rem;
+      text-align: center;
+    }
+    .timer-display {
+      display: block;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent-2);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .timer-controls {
+      display: flex;
+      gap: 0.35rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .timer-controls button {
+      min-height: 34px;
+      padding: 0.32rem 0.5rem;
+      font-size: 0.86rem;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.7rem;
+      background: #fff;
+      color: var(--ink);
+      resize: vertical;
+    }
+    textarea { min-height: 96px; }
+    label {
+      display: block;
+      font-weight: 900;
+      margin-bottom: 0.35rem;
+    }
+    .field { display: grid; gap: 0.35rem; }
+    .hint {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .postit-board {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .postit-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 0.6rem;
+      align-items: end;
+    }
+    .postits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      min-height: 110px;
+    }
+    .postit {
+      border: 1px solid #e4c04f;
+      background: #fff3b0;
+      border-radius: var(--radius);
+      padding: 0.8rem;
+      min-height: 92px;
+      overflow-wrap: anywhere;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(100, 80, 20, 0.14);
+    }
+    .postit small {
+      display: block;
+      color: #766018;
+      margin-top: 0.45rem;
+      font-weight: 900;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+    .matrix .field {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      padding: 0.75rem;
+    }
+    .chips {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      padding: 0.22rem 0.55rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .chip:hover { border-color: var(--accent); }
+
+    .scenario {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      gap: 1rem;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+      background: #fff;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+    .score {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    .score-output {
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--accent-3);
+    }
+
+    .letter {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .letter-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .print-panel {
+      border: 2px solid var(--ink);
+      padding: 1rem;
+      background: #fff;
+      border-radius: var(--radius);
+    }
+    .final-line {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid #bde4df;
+      background: #effaf8;
+      border-radius: var(--radius);
+    }
+
+    .nav-steps {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .nav-steps a {
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 0.4rem 0.7rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2, .grid-3, .matrix {
+        grid-template-columns: 1fr;
+      }
+      .section-header, .scenario {
+        grid-template-columns: 1fr;
+      }
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .tools { justify-content: flex-start; }
+      .postit-controls { grid-template-columns: 1fr; }
+      h1 { max-width: 100%; }
+    }
+
+    @media print {
+      .topbar, .hero-panel, .timer, .tools, .nav-steps, .postit-board button, .postit-controls, details.optional {
+        display: none !important;
+      }
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .hero {
+        min-height: 0;
+        display: block;
+        padding: 0;
+      }
+      main, .hero {
+        width: 100%;
+      }
+      .section {
+        box-shadow: none;
+        break-inside: avoid;
+        margin: 0 0 0.7rem;
+      }
+      .section-header, .section-body {
+        padding: 0.7rem;
+      }
+      textarea {
+        min-height: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="Comandi principali">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">5</div>
+        <div>
+          <strong>Manuale d'uso di me stesso</strong>
+          <span>Attività di orientamento post maturità - 2 ore</span>
+        </div>
+      </div>
+      <div class="tools">
+        <button type="button" onclick="toggleDsa()">Aa DSA/BES</button>
+        <button type="button" onclick="toggleFocus()">Modalità LIM</button>
+        <button type="button" onclick="window.print()">Stampa</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="tag">Ultime ore dell'anno</span>
+      <h1>Manuale d'uso di me stesso</h1>
+      <p class="subtitle">Un percorso guidato per riconoscere capacità, energie, contesti favorevoli e prossimi passi dopo la maturità.</p>
+      <div class="quote">Non devo scegliere chi sarò per sempre. Devo scegliere quale prossimo ambiente mi aiuta a crescere.</div>
+      <div class="nav-steps" aria-label="Vai alle fasi">
+        <a href="#fase-1">Apertura</a>
+        <a href="#fase-2">Episodi</a>
+        <a href="#fase-3">Mappa</a>
+        <a href="#fase-4">Specchio</a>
+        <a href="#fase-5">Scenari</a>
+        <a href="#fase-6">Lettera</a>
+      </div>
+    </div>
+    <aside class="hero-panel" aria-label="Scaletta delle due ore">
+      <h2>Regia rapida</h2>
+      <div class="schedule">
+        <div class="schedule-row"><span class="time">10'</span><span>Apertura e domande iniziali</span><a href="#fase-1">Vai</a></div>
+        <div class="schedule-row"><span class="time">20'</span><span>Tre episodi personali</span><a href="#fase-2">Vai</a></div>
+        <div class="schedule-row"><span class="time">25'</span><span>Mappa delle propensioni</span><a href="#fase-3">Vai</a></div>
+        <div class="schedule-row"><span class="time">20'</span><span>Intervista a coppie</span><a href="#fase-4">Vai</a></div>
+        <div class="schedule-row"><span class="time">20'</span><span>Quattro scenari dopo la maturità</span><a href="#fase-5">Vai</a></div>
+        <div class="schedule-row"><span class="time">20'</span><span>Lettera al me stesso di settembre</span><a href="#fase-6">Vai</a></div>
+      </div>
+    </aside>
+  </header>
+
+  <main>
+    <section class="section" id="fase-1">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 1 - 10 minuti</span>
+          <h2>Apertura: la domanda giusta</h2>
+          <p>Porta la classe fuori dalla logica "devo sapere già tutto" e dentro una scelta più consapevole.</p>
+        </div>
+        <div class="timer" data-minutes="10">
+          <span class="timer-display">10:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="teacher-note"><strong>Alla LIM:</strong> leggi la frase iniziale, poi chiedi risposte rapide. Non correggere, non interpretare subito: raccogli parole.</div>
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>Mi attira</h3>
+            <p>Quale scelta post maturità ti incuriosisce, anche solo un po'?</p>
+          </div>
+          <div class="mini-card">
+            <h3>Mi spaventa</h3>
+            <p>Quale scelta ti sembra rischiosa, difficile o troppo grande?</p>
+          </div>
+          <div class="mini-card">
+            <h3>Me la dicono altri</h3>
+            <p>Quale scelta senti più suggerita dall'esterno che davvero tua?</p>
+          </div>
+        </div>
+        <div class="postit-board">
+          <div class="postit-controls">
+            <div class="field">
+              <label for="postitText">Raccolta anonima alla LIM</label>
+              <input id="postitText" type="text" placeholder="Scrivi una parola o una frase breve">
+            </div>
+            <button type="button" class="primary" onclick="addPostit()">Aggiungi</button>
+            <button type="button" class="danger" onclick="clearPostits()">Svuota</button>
+          </div>
+          <div class="postits" id="postits" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fase-2">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 2 - 20 minuti</span>
+          <h2>Tre episodi in cui mi sono visto funzionare</h2>
+          <p>Gli studenti cercano indizi concreti, non etichette generiche.</p>
+        </div>
+        <div class="timer" data-minutes="20">
+          <span class="timer-display">20:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>1. Ho imparato bene</h3>
+            <ol class="question-list">
+              <li>Che cosa stavo imparando?</li>
+              <li>Da solo, con qualcuno, facendo pratica, ascoltando, leggendo?</li>
+              <li>Cosa mi ha aiutato?</li>
+              <li>Cosa mi ha fatto venire voglia di continuare?</li>
+            </ol>
+          </div>
+          <div class="mini-card">
+            <h3>2. Ho risolto un problema</h3>
+            <ol class="question-list">
+              <li>Che tipo di problema era?</li>
+              <li>Ho ragionato, provato, cercato aiuto, costruito, spiegato?</li>
+              <li>Che ruolo ho preso spontaneamente?</li>
+            </ol>
+          </div>
+          <div class="mini-card">
+            <h3>3. Mi sono sentito fuori posto</h3>
+            <ol class="question-list">
+              <li>Che contesto era?</li>
+              <li>Cosa mi consumava energia?</li>
+              <li>Di che cosa avrei avuto bisogno?</li>
+            </ol>
+          </div>
+        </div>
+        <details class="optional">
+          <summary>Aiuto per chi non sa da dove partire</summary>
+          <p>Puoi usare scuola, stage, sport, lavoro estivo, videogiochi, volontariato, officina, programmazione, un progetto personale, una discussione riuscita, una volta in cui hai aiutato qualcuno.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="fase-3">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 3 - 25 minuti</span>
+          <h2>La mappa delle propensioni</h2>
+          <p>Cerca sovrapposizioni tra energia, capacità, curiosità e fatica.</p>
+        </div>
+        <div class="timer" data-minutes="25">
+          <span class="timer-display">25:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="matrix">
+          <div class="field">
+            <label for="energia">Mi dà energia</label>
+            <textarea id="energia" placeholder="Es. costruire, spiegare, capire, coordinare..."></textarea>
+            <div class="chips" data-target="energia">
+              <span class="chip">fare pratica</span><span class="chip">aiutare</span><span class="chip">creare</span><span class="chip">decidere</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="riesce">Mi riesce bene</label>
+            <textarea id="riesce" placeholder="Es. organizzare, calcolare, riparare, ascoltare..."></textarea>
+            <div class="chips" data-target="riesce">
+              <span class="chip">ragionare</span><span class="chip">progettare</span><span class="chip">comunicare</span><span class="chip">tenere duro</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="curiosita">Mi incuriosisce</label>
+            <textarea id="curiosita" placeholder="Es. automazione, design, economia, persone..."></textarea>
+            <div class="chips" data-target="curiosita">
+              <span class="chip">tecnologia</span><span class="chip">meccanica</span><span class="chip">dati</span><span class="chip">impresa</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="pesa">Mi pesa</label>
+            <textarea id="pesa" placeholder="Es. teoria senza esempi, caos, isolamento..."></textarea>
+            <div class="chips" data-target="pesa">
+              <span class="chip">routine</span><span class="chip">confusione</span><span class="chip">troppa teoria</span><span class="chip">troppa pressione</span>
+            </div>
+          </div>
+        </div>
+        <div class="teacher-note"><strong>Domanda di formalizzazione:</strong> dove c'è sovrapposizione tra ciò che ti riesce, ciò che ti dà energia e ciò che ti incuriosisce?</div>
+        <details class="optional">
+          <summary>Quattro lenti da proporre alla classe</summary>
+          <div class="grid-2">
+            <p><strong>Persone:</strong> spiegare, mediare, ascoltare, vendere, guidare.</p>
+            <p><strong>Oggetti e sistemi:</strong> programmare, riparare, progettare, ottimizzare.</p>
+            <p><strong>Idee e modelli:</strong> studiare, astrarre, argomentare, capire a fondo.</p>
+            <p><strong>Organizzazione:</strong> pianificare, coordinare, prendere iniziativa.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="fase-4">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 4 - 20 minuti</span>
+          <h2>Intervista a coppie: lo specchio esterno</h2>
+          <p>Un compagno restituisce osservazioni, non giudizi.</p>
+        </div>
+        <div class="timer" data-minutes="20">
+          <span class="timer-display">20:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="teacher-note"><strong>Regola:</strong> chi ascolta non interpreta la vita dell'altro. Dice solo: "ti ho visto funzionare quando..."</div>
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>Domande dell'intervistatore</h3>
+            <ol class="question-list">
+              <li>In quali situazioni ti ho visto più coinvolto?</li>
+              <li>Che capacità ti riconosco, anche se forse le sottovaluti?</li>
+              <li>Che tipo di ambiente potrebbe farti crescere?</li>
+              <li>Quale rischio potresti evitare: paura, compiacere, inerzia, prestigio?</li>
+            </ol>
+          </div>
+          <div class="mini-card">
+            <h3>Restituzione finale</h3>
+            <p>Completa questa frase e consegnala al compagno:</p>
+            <p><strong>"Secondo me ti vedo bene in un contesto dove puoi..."</strong></p>
+            <textarea placeholder="Scrivi una restituzione breve, concreta e rispettosa."></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fase-5">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 5 - 20 minuti</span>
+          <h2>Quattro scenari dopo la maturità</h2>
+          <p>Non per chiudere la scelta, ma per capire quali strade meritano indagine.</p>
+        </div>
+        <div class="timer" data-minutes="20">
+          <span class="timer-display">20:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="scenario">
+          <div><strong>Università teorica, scientifica o progettuale</strong><br><span class="hint">Studio lungo, basi solide, modelli, esami, autonomia crescente.</span></div>
+          <div><input type="range" min="1" max="5" value="3" oninput="updateScore(this)"><div class="score"><span>lontano</span><span>vicino</span></div><div class="score-output">3</div></div>
+        </div>
+        <div class="scenario">
+          <div><strong>ITS o formazione tecnica specializzata</strong><br><span class="hint">Laboratori, aziende, competenze operative, ingresso rapido nel settore.</span></div>
+          <div><input type="range" min="1" max="5" value="3" oninput="updateScore(this)"><div class="score"><span>lontano</span><span>vicino</span></div><div class="score-output">3</div></div>
+        </div>
+        <div class="scenario">
+          <div><strong>Lavoro, apprendistato o esperienza sul campo</strong><br><span class="hint">Contesto reale, responsabilità, crescita pratica, prime scelte professionali.</span></div>
+          <div><input type="range" min="1" max="5" value="3" oninput="updateScore(this)"><div class="score"><span>lontano</span><span>vicino</span></div><div class="score-output">3</div></div>
+        </div>
+        <div class="scenario">
+          <div><strong>Anno ponte con piano concreto</strong><br><span class="hint">Tempo per chiarire, ma con corsi, esperienze, certificazioni, colloqui e scadenze.</span></div>
+          <div><input type="range" min="1" max="5" value="3" oninput="updateScore(this)"><div class="score"><span>lontano</span><span>vicino</span></div><div class="score-output">3</div></div>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>Oggi sembra più coerente con me</label><textarea></textarea></div>
+          <div class="field"><label>Devo esplorare seriamente</label><textarea></textarea></div>
+          <div class="field"><label>Potrei scegliere per pressione esterna</label><textarea></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fase-6">
+      <div class="section-header">
+        <div>
+          <span class="tag">Fase 6 - 20 minuti</span>
+          <h2>Lettera al me stesso di settembre</h2>
+          <p>La chiusura trasforma la riflessione in un primo passo concreto.</p>
+        </div>
+        <div class="timer" data-minutes="20">
+          <span class="timer-display">20:00</span>
+          <div class="timer-controls">
+            <button type="button" onclick="startTimer(this)">Avvia</button>
+            <button type="button" onclick="pauseTimer(this)">Pausa</button>
+            <button type="button" onclick="resetTimer(this)">Azzera</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="letter">
+          <h3>Tre cose che so di me prima di scegliere</h3>
+          <div class="letter-grid">
+            <div class="field"><label>1. Quando do il meglio, di solito...</label><textarea></textarea></div>
+            <div class="field"><label>2. Una capacità che voglio riconoscermi è...</label><textarea></textarea></div>
+            <div class="field"><label>3. Un ambiente che potrebbe farmi crescere è...</label><textarea></textarea></div>
+            <div class="field"><label>4. Una cosa che non voglio scegliere solo per paura è...</label><textarea></textarea></div>
+            <div class="field"><label>5. Entro settembre voglio informarmi concretamente su...</label><textarea></textarea></div>
+            <div class="field"><label>6. La prossima azione piccola ma reale sarà...</label><textarea></textarea></div>
+          </div>
+        </div>
+        <details class="optional">
+          <summary>Esempi di azioni piccole ma reali</summary>
+          <p>Parlare con uno studente universitario; visitare il sito di un ITS; guardare il piano di studi di un corso; cercare una giornata di orientamento; fare una simulazione di test; chiedere un colloquio; parlare con una persona che fa già quel lavoro.</p>
+        </details>
+        <div class="final-line">Una buona scelta non elimina tutti i dubbi: nasce da informazioni vere, da uno sguardo onesto su di sé e da un primo passo concreto.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const timers = new WeakMap();
+
+    function toggleDsa() {
+      document.body.classList.toggle("dsa-mode");
+    }
+
+    function toggleFocus() {
+      document.body.classList.toggle("focus-mode");
+    }
+
+    function timerBox(button) {
+      return button.closest(".timer");
+    }
+
+    function timerData(box) {
+      if (!timers.has(box)) {
+        const minutes = Number(box.dataset.minutes || 10);
+        timers.set(box, { remaining: minutes * 60, original: minutes * 60, interval: null });
+      }
+      return timers.get(box);
+    }
+
+    function renderTimer(box) {
+      const data = timerData(box);
+      const minutes = Math.floor(data.remaining / 60).toString().padStart(2, "0");
+      const seconds = Math.floor(data.remaining % 60).toString().padStart(2, "0");
+      box.querySelector(".timer-display").textContent = minutes + ":" + seconds;
+    }
+
+    function startTimer(button) {
+      const box = timerBox(button);
+      const data = timerData(box);
+      if (data.interval) return;
+      data.interval = setInterval(() => {
+        data.remaining = Math.max(0, data.remaining - 1);
+        renderTimer(box);
+        if (data.remaining === 0) {
+          clearInterval(data.interval);
+          data.interval = null;
+          box.querySelector(".timer-display").textContent = "Tempo";
+        }
+      }, 1000);
+    }
+
+    function pauseTimer(button) {
+      const box = timerBox(button);
+      const data = timerData(box);
+      clearInterval(data.interval);
+      data.interval = null;
+    }
+
+    function resetTimer(button) {
+      const box = timerBox(button);
+      const data = timerData(box);
+      clearInterval(data.interval);
+      data.interval = null;
+      data.remaining = data.original;
+      renderTimer(box);
+    }
+
+    function addPostit() {
+      const input = document.getElementById("postitText");
+      const text = input.value.trim();
+      if (!text) return;
+      const board = document.getElementById("postits");
+      const card = document.createElement("div");
+      card.className = "postit";
+      card.innerHTML = escapeHtml(text) + "<small>voce della classe</small>";
+      board.prepend(card);
+      input.value = "";
+      input.focus();
+    }
+
+    function clearPostits() {
+      document.getElementById("postits").innerHTML = "";
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function updateScore(input) {
+      input.closest(".scenario").querySelector(".score-output").textContent = input.value;
+    }
+
+    document.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const targetId = chip.parentElement.dataset.target;
+        const target = document.getElementById(targetId);
+        const addition = chip.textContent.trim();
+        target.value = target.value ? target.value + ", " + addition : addition;
+        target.focus();
+      });
+    });
+
+    document.getElementById("postitText").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") addPostit();
+    });
+  </script>
+</body>
+</html>
